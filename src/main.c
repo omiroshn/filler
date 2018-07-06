@@ -12,6 +12,36 @@
 
 #include "filler.h"
 
+int		is_good(int **nums, int x, int y, int **token, int xPeace, int yPeace) {
+	int count;
+
+	count = 0;
+	for (int i = 0; i < xPeace; ++i) {
+		for (int j = 0; j < yPeace; ++j) {
+			if (nums[x + i][y + j] & token[i][j]) {
+				count++;
+			}
+		}
+	}
+	if (count == 0 || count > 1)
+		return (0);
+	return (1);
+}
+
+int		count_sum(int **nums, int x, int y, int **token, int xPeace, int yPeace, int **chess) {
+	int sum;
+
+	sum = 0;
+	for (int i = 0; i < xPeace; ++i) {
+		for (int j = 0; j < yPeace; ++j) {
+			if (nums[x][y] & token[i][j]) {
+				sum += chess[x + i][y + j];
+			}
+		}
+	}
+	return (sum);
+}
+
 int main(int argc, char **argv)
 {
 	char		*line;
@@ -167,28 +197,66 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	int c = 0;
-	int z = 0;
 	int flag = 1;
-	for (int i = playerX; i < playerX + xPeace; ++i) {
+	int sum = 0;
+	int manhatten = 0;
+	// for (int i = 0; i < x; ++i) {
+	// 	for (int j = 0; j < y; ++j) {
+
+	// 		for (int c = 0; c < xPeace; ++c) {
+	// 			for (int z = 0; z < yPeace; ++z) {
+	// 				if (!(nums[i][j] & token[c][z])) {
+	// 					nums[i][j] = piece[c][z] == '.' ? 0 : 1;
+	// 				}
+	// 			}
+	// 		}
+	// 		fprintf(f, "%d ", nums[i][j]);
+	// 		// if (!(is_good(nums, i, j, token, xPeace, yPeace)))
+	// 		// 	continue ;
+	// 		// sum = count_sum(nums, i, j, token, xPeace, yPeace, chess);
+	// 		// fprintf(f, "SUM: %d\n", sum);
+	// 		// nums[i][j] = piece[c][z] == '.' ? 0 : 1;
+	// 		// if (!(k & token[c][z]))
+	// 		// j = playerY - 1;
+	// 	}
+	// 	fprintf(f, "\n");
+	// }
+
+	int c, z;
+	// for (int i = 0; i < x; ++i) {
+	// 	for (int j = 0; j < y; ++j) {
+	int posX = 1;
+	int posY = 1;
+	c = 0;
+	for (int s = posX; s < posX + xPeace; ++s) {
 		z = 0;
-		for (int j = playerY; j < playerY + yPeace; ++j) {
-			// int k = piece[c][z] == '.' ? 0 : 1;
-			// if (!(k & token[c][z]))
-			// 	j = playerY - 1;
+		for (int d = posY; d < posY + yPeace; ++d) {
+			if (nums[s][d] = piece[c][z]) ///////////////////////////////////////////////////////
+			fprintf(f, "%c ", piece[c][z]);
+			if (nums[s][d] != 9) {
+				if (piece[c][z] == '.')
+					nums[s][d] = 0;
+				else
+					nums[s][d] = 1;
+			}
 			z++;
 		}
+		fprintf(f, "\n");
 		c++;
 	}
-
-	// c = 0;
-	// for (int i = playerX; i < playerX + xPeace; ++i) {
-	// 	z = 0;
-	// 	for (int j = playerY; j < playerY + yPeace; ++j) {
-	// 		nums[i][j] = piece[c][z] == '.' ? 0 : 1;
-	// 		z++;
+fprintf(f, "\n");
+	c = 0;
+	for (int s = posX; s < posX + xPeace; ++s) {
+		z = 0;
+		for (int d = posY; d < posY + yPeace; ++d) {
+			// if (nums[s][d] = piece[c][z])
+			fprintf(f, "%d ", nums[s][d]);
+			z++;
+		}
+		fprintf(f, "\n");
+		c++;
+	}
 	// 	}
-	// 	c++;
 	// }
 
 	fprintf(f, "\n");
@@ -196,7 +264,7 @@ int main(int argc, char **argv)
 	{
 		for (int j = 0; j < y; ++j)
 		{
-			fprintf(f, "%d", chess[i][j]);
+			fprintf(f, "%d ", chess[i][j]);
 		}
 		fprintf(f, "\n");
 	}
@@ -209,5 +277,6 @@ int main(int argc, char **argv)
 		}
 		fprintf(f, "\n");
 	}
+	printf("%d %d\n", playerX, playerY);
 	return (0);
 }
