@@ -17,4 +17,22 @@
 # include "libft.h"
 # include "ft_printf.h"
 
+# define PLAYER -1
+# define ENEMY -2
+
+typedef struct  s_in
+{
+    int     x;
+    int     y;
+    int     xp;
+    int     yp;
+    int     minx;
+    int     miny;
+    char    me;
+    char    enemy;
+    char    **lines;
+	char    **piece;
+    int     **nums;
+}               t_in;
+
 #endif
