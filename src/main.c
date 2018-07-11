@@ -36,7 +36,6 @@ void	size_of_map(t_in *info, char *line)
 	size = ft_strsplit(line, ' ');
 	info->x = ft_atoi(size[1]);
 	info->y = ft_atoi(size[2]);
-	get_next_line(0, &line);
 }
 
 void	size_of_token(t_in *info, char *line)
@@ -91,9 +90,9 @@ void	shift_on_offset(t_in *info, FILE *f)
 				info->piece[i][j] = '.';
 			}
 	//printf
-	for (int i = 0; i < info->xp; ++i)
-		fprintf(f, "%s\n", info->piece[i]);
-	fprintf(f, "\n");
+	// for (int i = 0; i < info->xp; ++i)
+	// 	fprintf(f, "%s\n", info->piece[i]);
+	// fprintf(f, "\n");
 }
 
 void	offset_for_tokens(t_in *info, FILE *f)
@@ -131,7 +130,7 @@ void	offset_for_tokens(t_in *info, FILE *f)
 		info->minx = offset_x;
 
 	// printf
-	fprintf(f, "\n%d %d\n\n", info->miny, info->minx);
+	// fprintf(f, "\n%d %d\n\n", info->miny, info->minx);
 
 	//sdvig na offset
 	shift_on_offset(info, f);
@@ -145,7 +144,7 @@ int		manhattan_distance(t_in *info, int x, int y)
 	int len;
 
 	len = 0;
-	min = info->x + info->y;
+	min = info->x * info->y;
 	i = -1;
 	while (++i < info->x && (j = -1))
 		while (++j < info->y)
@@ -180,7 +179,7 @@ void	manhattan(t_in *info, FILE *f)
 			if (info->lines[i][j] == '.')
 				info->nums[i][j] = manhattan_distance(info, i, j);
 
-	//printf
+	// printf
 	fprintf(f, "\n");
 	for (int i = 0; i < info->x; ++i)
 	{
@@ -203,91 +202,57 @@ void	place_player(t_in *info, FILE *f)
 
 	int xx = 0;
 	int yy = 0;
-
+	int enemy = 0;
 	i = -1;
-	sum = 0;
-	sell = 0;
-	manhattan = info->x + info->y;
-	while (++i < info->x && (j = -1))
+	manhattan = info->x * info->y;
+	// fprintf(f, "\nmanhattan: %d\n", manhattan);
+	// fprintf(f, "minx:%d miny:%d\n", info->minx, info->miny);
+	// fprintf(f, "\n");
+	while (++i < info->x - info->xp && (j = -1))
 	{
-		while (++j < info->y)
+		while (++j < info->y - info->yp)
 		{
+			sum = 0;
+			sell = 0;
 			for (int ii = 0; ii < info->xp; ++ii)
 			{
 				for (int jj = 0; jj < info->yp; ++jj)
 				{
 					if (info->piece[ii][jj] == '*')
 					{
-						if (info->nums[i][j] == PLAYER)
+						if (info->nums[i + ii][j + jj] == PLAYER)
 							sell++;
+						if (info->nums[i + ii][j + jj] == ENEMY)
+							enemy++;
 						// if (info->nums[i][j] != PLAYER || info->nums[i][j] != ENEMY)
-							sum += info->nums[i][j];
+						sum += info->nums[i + ii][j + jj];
 					}
 				}
 			}
-			if (sell == 1 && sum < manhattan)
+			// if (sell)
+			// {
+			// 	fprintf(f, "sell:%d sum:%d\n", sell, sum);
+			// 	fprintf(f, "i:%d j:%d\n", i, j);
+			// }
+			if (!enemy && sell == 1 && sum < manhattan)
 			{
 				xx = i;
 				yy = j;
+				// fprintf(f, "xx:%d yy:%d\n", xx, yy);
 				manhattan = sum;
 			}
+			// fprintf(f, "\n");
 		}
+		// fprintf(f, "\n");
+		
 	}
-	fprintf(f, "SUM: %d\n", manhattan);
-	fprintf(f, "POS: %d %d\n", xx, yy);
-	// int manhatten = 999999;
-	// int c, z;
-	
-	// int xx = 0;
-	// int yy = 0;
-	// for (int posX = 0; posX < x - xPeace; ++posX)
-	// {
-	// 	for (int posY = 0; posY < y - yPeace; ++posY)
-	// 	{
-	// 		c = 0;
-	// 		sum = 0;
-	// 		sell = 0;
-	// 		for (int s = posX; s < posX + xPeace; ++s)
-	// 		{
-	// 			z = 0;
-	// 			for (int d = posY; d < posY + yPeace; ++d)
-	// 			{
-	// 				if (piece[c][z] == '*')
-	// 				{
-	// 					if (nums[s][d] == 1 || nums[s][d] == 9)
-	// 						sell++;
-	// 					sum += chess[s][d];
-	// 				}
-	// 				z++;
-	// 			}
-	// 			c++;
-	// 		}
-	// 		if (sell == 1 && sum < manhatten)
-	// 		{
-	// 			xx = posX;
-	// 			yy = posY;
-	// 			manhatten = sum;
-	// 		}
-	// 	}
-	// }
-	// fprintf(f, "SUM: %d\n", manhatten);
-
-	// c = 0;
-	// for (int i = xx; i < xx + xPeace; ++i)
-	// {
-	// 	z = 0;
-	// 	for (int j = yy; j < yy + yPeace; ++j)
-	// 	{
-	// 		if (piece[c][z] == '*')
-	// 		{
-	// 			nums[i][j] = 1;
-	// 		}
-	// 		else
-	// 			nums[i][j] = 0;
-	// 		z++;
-	// 	}
-	// 	c++;
-	// }
+	// fprintf(f, "SUM: %d\n", manhattan);
+	// fprintf(f, "POS: %d %d\n", xx, yy);
+	ft_printf("%d %d\n", xx, yy);
+	// i = -1;
+	// while (++i < info->xp)
+	// 	free(info->piece[i]);
+	// free(info->piece);
 }
 
 void	read_map(t_in *info, FILE *f)
@@ -296,26 +261,28 @@ void	read_map(t_in *info, FILE *f)
 	char	*line;
 	
 	i = -1;
+	get_next_line(0, &line);
 	while (get_next_line(0, &line) > 0 && !ft_strstr(line, "Piece"))
 	{
 		if (++i < info->x)
 			info->lines[i] = &line[4];
 	}
+	
 	//printf
-	for (int i = 0; i < info->x; ++i)
-	{
-		fprintf(f, "%s\n", info->lines[i]);
-	}
+	// for (int i = 0; i < info->x; ++i)
+	// {
+	// 	fprintf(f, "%s\n", info->lines[i]);
+	// }
 	size_of_token(info, line);
 	create_2d_token_array(info, info->xp, info->yp);
 
-	//printf
-	for (int i = 0; i < info->xp; ++i)
-	{
-		fprintf(f, "%s\n", info->piece[i]);
-	}
+	// printf
+	// for (int i = 0; i < info->xp; ++i)
+	// {
+	// 	fprintf(f, "%s\n", info->piece[i]);
+	// }
 	//offset for tokens
-	offset_for_tokens(info, f);
+	// offset_for_tokens(info, f);
 	manhattan(info, f);
 	//postavit enemy & playera
 	place_player(info, f);
@@ -344,31 +311,11 @@ int main(void)
 
 	//reading file
 	read_map(&info, f);
+	while (get_next_line(0, &line))
+		read_map(&info, f);
 
-	// fprintf(f, "\n");
-	// for (int i = 0; i < x; ++i)
-	// {
-	// 	for (int j = 0; j < y; ++j)
-	// 	{
-	// 		fprintf(f, "%d", nums[i][j]);
-	// 	}
-	// 	fprintf(f, "\n");
-	// }
-	// fprintf(f, "%d %d %d %d %d %d\n", xx - minX, yy - minY, xx, minX, yy, minY);
-	// ft_printf("%d %d\n", xx - minX, yy - minY);
-
-		// // while (get_next_line(0, &line)) {
-		// // 	fprintf(f, "%s\n", line);
-		// // }
-		// get_next_line(0, &line);
-		// fprintf(f, "%s\n", line);
-		// get_next_line(0, &line);
-		// fprintf(f, "%s\n", line);
-		// get_next_line(0, &line);
-		// fprintf(f, "%s\n", line);
-		// get_next_line(0, &line);
-		// write(1, "8 0\n", 4);
-		// write(1, "9 1\n", 4);
-	// }
+	// get_next_line(0, &line);
+	// while (get_next_line(0, &line))
+	// 	fprintf(f, "%s\n", line);
 	return (0);
 }
