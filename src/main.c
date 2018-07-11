@@ -180,16 +180,16 @@ void	manhattan(t_in *info, FILE *f)
 				info->nums[i][j] = manhattan_distance(info, i, j);
 
 	// printf
-	fprintf(f, "\n");
-	for (int i = 0; i < info->x; ++i)
-	{
-		for (int j = 0; j < info->y; ++j)
-			if (ft_intlen(info->nums[i][j]) == 2)
-				fprintf(f, "%d ", info->nums[i][j]);
-			else
-				fprintf(f, "%d  ", info->nums[i][j]);
-		fprintf(f, "\n");
-	}
+	// fprintf(f, "\n");
+	// for (int i = 0; i < info->x; ++i)
+	// {
+	// 	for (int j = 0; j < info->y; ++j)
+	// 		if (ft_intlen(info->nums[i][j]) == 2)
+	// 			fprintf(f, "%d ", info->nums[i][j]);
+	// 		else
+	// 			fprintf(f, "%d  ", info->nums[i][j]);
+	// 	fprintf(f, "\n");
+	// }
 }
 
 void	place_player(t_in *info, FILE *f)
@@ -203,15 +203,19 @@ void	place_player(t_in *info, FILE *f)
 	int xx = 0;
 	int yy = 0;
 	int enemy = 0;
-	i = -1;
+	int q = 0;
+	int w = 0;
+	
 	manhattan = info->x * info->y;
 	// fprintf(f, "\nmanhattan: %d\n", manhattan);
-	// fprintf(f, "minx:%d miny:%d\n", info->minx, info->miny);
+	// fprintf(f, "minx:%d miny:%d\n", info->x - info->xp, info->y - info->yp);
 	// fprintf(f, "\n");
-	while (++i < info->x - info->xp && (j = -1))
+	i = -100;
+	while (++i < info->x + 100 && (j = -100))
 	{
-		while (++j < info->y - info->yp)
+		while (++j < info->y + 100)
 		{
+			//in func
 			sum = 0;
 			sell = 0;
 			for (int ii = 0; ii < info->xp; ++ii)
@@ -220,31 +224,28 @@ void	place_player(t_in *info, FILE *f)
 				{
 					if (info->piece[ii][jj] == '*')
 					{
-						if (info->nums[i + ii][j + jj] == PLAYER)
-							sell++;
-						if (info->nums[i + ii][j + jj] == ENEMY)
-							enemy++;
-						// if (info->nums[i][j] != PLAYER || info->nums[i][j] != ENEMY)
-						sum += info->nums[i + ii][j + jj];
+						q = ii + i;
+						w = jj + j;
+						if (q >= 0 && q < info->x && w >= 0 && w < info->y)
+						{
+							// fprintf(f, "q:%d w:%d\n", q, w);
+							if (info->nums[q][w] == PLAYER)
+								sell++;
+							if (info->nums[q][w] == ENEMY)
+								enemy++;
+							sum += info->nums[q][w];
+						}
 					}
 				}
 			}
-			// if (sell)
-			// {
-			// 	fprintf(f, "sell:%d sum:%d\n", sell, sum);
-			// 	fprintf(f, "i:%d j:%d\n", i, j);
-			// }
 			if (!enemy && sell == 1 && sum < manhattan)
 			{
 				xx = i;
 				yy = j;
-				// fprintf(f, "xx:%d yy:%d\n", xx, yy);
 				manhattan = sum;
 			}
-			// fprintf(f, "\n");
+			//in func
 		}
-		// fprintf(f, "\n");
-		
 	}
 	// fprintf(f, "SUM: %d\n", manhattan);
 	// fprintf(f, "POS: %d %d\n", xx, yy);
