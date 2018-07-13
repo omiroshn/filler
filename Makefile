@@ -12,7 +12,7 @@
 
 NAME = omiroshn.filler
 CC = clang
-FILES = main
+FILES = main malloc algo
 LIBFT_DIR = libft/
 PRINTF_DIR = ft_printf/
 SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))
