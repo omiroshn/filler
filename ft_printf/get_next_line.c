@@ -47,7 +47,7 @@ int		get_next_line(const int fd, char **line)
 	end = NULL;
 	if (!line || (!(*line = 0) && (fd < 0 || fd > 4499))
 		|| read(fd, NULL, 0) < 0)
-		return (-1);	
+		return (-1);
 	while (!end)
 	{
 		if (!arr[fd].size &&

@@ -12,7 +12,7 @@
 
 NAME = visualizer
 CC = clang
-FILES = main
+FILES = main draw read system
 LIBFT_DIR = ../libft/
 PRINTF_DIR = ../ft_printf/
 SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))

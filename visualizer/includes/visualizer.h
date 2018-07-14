@@ -19,51 +19,56 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-#ifdef __APPLE__
-# include "SDL_image.h"
-# include "SDL_mixer.h"
-# include "SDL_ttf.h"
-#elif __linux__
-# include <SDL2/SDL_image.h>
-# include <SDL2/SDL_mixer.h>
-# include <SDL2/SDL_ttf.h>
-#endif
+# ifdef __APPLE__
+#  include "SDL_image.h"
+#  include "SDL_mixer.h"
+#  include "SDL_ttf.h"
+# elif __linux__
+#  include <SDL2/SDL_image.h>
+#  include <SDL2/SDL_mixer.h>
+#  include <SDL2/SDL_ttf.h>
+# endif
 
 # define FONTS_FOLDER "/fonts/"
 # define WIDTH 1280
 # define HEIGHT 1000
 # define TRUE 1
 
-typedef unsigned int	t_uint;
-
-typedef struct	s_in
+typedef struct		s_in
 {
 	int		x;
 	int		y;
-	int		xp;
-	int		yp;
-	int		minx;
-	int		miny;
-	int		xx;
-	int		yy;
-	char	me;
-	char	enemy;
 	char	*user1;
 	char	*user2;
 	char	**lines;
-	char	**piece;
-	int		**nums;
-}				t_in;
+}					t_in;
 
-typedef	struct	s_map
+typedef struct		s_color
 {
+	int r;
+	int b;
+	int g;
+}					t_color;
+
+typedef	struct		s_map
+{
+	SDL_Window	*window;
 	SDL_Surface	*screen;
 	SDL_Surface *text;
-	SDL_Surface *fps;
-	SDL_Window	*window;
 	TTF_Font	*ttf;
-	t_uint		*image;
 	t_in		info;
-}				t_map;
+	t_color		color;
+	float		offset;
+	float		radius;
+}					t_map;
+
+void				draw_grid(t_map *m);
+void				draw_userinfo(t_map *m);
+void				malloc_map(t_map *m);
+void				read_user(t_map *m, char *line);
+void				read_grid(t_map *m);
+void				put_error(const char *msg);
+int					key_function(t_map *map);
+int					quit(t_map *m);
 
 #endif

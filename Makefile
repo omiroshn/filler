@@ -29,13 +29,13 @@ all: $(NAME) $(NAMEVIS)
 .PHONY: all clean
 .NOTPARALLEL: all $(NAME) clean fclean re
 
-$(NAME): libft/libft.a ft_printf/libftprintf.a $(OBJ)
+$(NAME): $(LIBFT_DIR)libft.a $(PRINTF_DIR)libftprintf.a $(OBJ)
 	@echo "\033[36mLinking...\033[0m"
-	@$(CC) -o $(NAME) $(FLAGS) $(SPEED) $(OBJ) $(CGFLAGS) $(FRAMEWORKS) libft/libft.a ft_printf/libftprintf.a
+	@$(CC) -o $(NAME) $(FLAGS) $(SPEED) $(OBJ) $(CGFLAGS) $(FRAMEWORKS) $(LIBFT_DIR)libft.a $(PRINTF_DIR)libftprintf.a
 	@echo "\033[32m[ ✔ ] Binary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
-libft/libft.a:
+$(LIBFT_DIR)libft.a:
 	@make --no-print-directory -j3 -C $(LIBFT_DIR)
-ft_printf/libftprintf.a:
+$(PRINTF_DIR)libftprintf.a:
 	@make --no-print-directory -j3 -C $(PRINTF_DIR)
 $(NAMEVIS):
 	@make --no-print-directory -j3 -C $(VISU_DIR)
