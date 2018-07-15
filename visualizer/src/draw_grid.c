@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw_grid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omiroshn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,23 +24,15 @@ static void	draw_rect(t_map *m, int x, int y, int radius)
 static void	return_color(t_map *m, int i, int j)
 {
 	if (m->info.lines[i][j] == '.')
-	{
-		m->color.r = 34;
-		m->color.g = 30;
-		m->color.b = 34;
-	}
-	if (m->info.lines[i][j] == 'O' || m->info.lines[i][j] == 'o')
-	{
-		m->color.r = 68;
-		m->color.g = 53;
-		m->color.b = 91;
-	}
-	if (m->info.lines[i][j] == 'X' || m->info.lines[i][j] == 'x')
-	{
-		m->color.r = 241;
-		m->color.g = 211;
-		m->color.b = 2;
-	}
+		m->color = (t_color){ 34, 30, 34 };
+	if (m->info.lines[i][j] == 'O')
+		m->color = (t_color){ 68, 53, 91 };
+	if (m->info.lines[i][j] == 'o')
+		m->color = (t_color){ 120, 94, 161 };
+	if (m->info.lines[i][j] == 'X')
+		m->color = (t_color){ 173, 152, 1 };
+	if (m->info.lines[i][j] == 'x')
+		m->color = (t_color){ 241, 211, 2 };
 }
 
 void		draw_grid(t_map *m)
@@ -50,9 +42,10 @@ void		draw_grid(t_map *m)
 	int x;
 	int y;
 
-	i = -1;
 	y = 70;
-	if (m->info.x > m->info.y)
+	m->info.me = 0;
+	m->info.enemy = 0;
+	if ((i = -1) && m->info.x > m->info.y)
 		m->offset = (HEIGHT - y) / m->info.x;
 	else
 		m->offset = (HEIGHT - y) / m->info.y;
@@ -62,35 +55,11 @@ void		draw_grid(t_map *m)
 		x = (WIDTH - (m->info.y * m->offset)) / 2;
 		while (++j < m->info.y)
 		{
+			count_pieces(m, i, j);
 			return_color(m, i, j);
 			draw_rect(m, x, y, (int)m->radius);
 			x += (int)m->offset;
 		}
 		y += (int)m->offset;
 	}
-}
-
-void		draw_userinfo(t_map *m)
-{
-	if (m->info.user1)
-	{
-		m->text = TTF_RenderText_Solid(m->ttf, m->info.user1,
-			(SDL_Color){ 68, 53, 91, 255 });
-		SDL_BlitSurface(m->text, NULL, m->screen,
-			&(SDL_Rect){10, 10, m->text->w + 10, m->text->h + 10});
-		SDL_FreeSurface(m->text);
-	}
-	if (m->info.user2)
-	{
-		m->text = TTF_RenderText_Solid(m->ttf, m->info.user2,
-			(SDL_Color){ 241, 211, 2, 255 });
-		SDL_BlitSurface(m->text, NULL, m->screen, &(SDL_Rect){
-			m->screen->w - m->text->w - 10, 10, m->text->w, m->text->h});
-		SDL_FreeSurface(m->text);
-	}
-	m->text = TTF_RenderText_Solid(m->ttf, "VERSUS",
-		(SDL_Color){ 238, 86, 34, 255 });
-	SDL_BlitSurface(m->text, NULL, m->screen, &(SDL_Rect){
-		(m->screen->w - m->text->w) / 2, 10, m->text->w, m->text->h});
-	SDL_FreeSurface(m->text);
 }

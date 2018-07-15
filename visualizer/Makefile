@@ -12,14 +12,14 @@
 
 NAME = visualizer
 CC = clang
-FILES = main draw read system
+FILES = main draw_grid draw_interface read system
 LIBFT_DIR = ../libft/
 PRINTF_DIR = ../ft_printf/
 SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))
 OBJ_LIST = $(addsuffix .o, $(FILES))
 SPEED = -O3
-FLAGS = -Wall
+FLAGS = -Wall -Wextra -Werror
 HEADERS =  -I./includes -I./../libft/includes -I./../ft_printf/includes
 
 OS = $(shell uname)

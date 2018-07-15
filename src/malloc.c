@@ -44,7 +44,7 @@ void	create_2d_array(t_in *info, int x, int y)
 	}
 }
 
-void	create_2d_token_array(t_in *info, int x, int y)
+void	create_2d_token_array(t_in *info, int x)
 {
 	int		i;
 	char	*line;

@@ -40,7 +40,7 @@ typedef struct	s_in
 void			size_of_map(t_in *info, char *line);
 void			size_of_token(t_in *info, char *line);
 void			create_2d_array(t_in *info, int x, int y);
-void			create_2d_token_array(t_in *info, int x, int y);
+void			create_2d_token_array(t_in *info, int x);
 void			manhattan(t_in *info);
 void			place_player(t_in *info);
 

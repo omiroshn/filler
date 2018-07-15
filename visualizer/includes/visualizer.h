@@ -41,13 +41,16 @@ typedef struct		s_in
 	char	*user1;
 	char	*user2;
 	char	**lines;
+	int		me;
+	int		enemy;
+	int		total;
 }					t_in;
 
 typedef struct		s_color
 {
 	int r;
-	int b;
 	int g;
+	int b;
 }					t_color;
 
 typedef	struct		s_map
@@ -55,18 +58,25 @@ typedef	struct		s_map
 	SDL_Window	*window;
 	SDL_Surface	*screen;
 	SDL_Surface *text;
+	SDL_Surface *pause_surface;
 	TTF_Font	*ttf;
+	TTF_Font	*pause_ttf;
 	t_in		info;
 	t_color		color;
 	float		offset;
 	float		radius;
+	int			mouse_pressed;
 }					t_map;
 
+void				draw_pause(t_map *m);
 void				draw_grid(t_map *m);
 void				draw_userinfo(t_map *m);
+void				draw_score(t_map *m);
+void				draw_procent_bar(t_map *m);
 void				malloc_map(t_map *m);
 void				read_user(t_map *m, char *line);
 void				read_grid(t_map *m);
+void				count_pieces(t_map *m, int i, int j);
 void				put_error(const char *msg);
 int					key_function(t_map *map);
 int					quit(t_map *m);

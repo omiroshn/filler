@@ -22,6 +22,7 @@ static void	create_2d_array(t_map *m, int x, int y)
 	{
 		m->info.lines[i] = (char *)malloc(sizeof(char) * (y + 1));
 	}
+	m->info.total = x * y;
 }
 
 void		malloc_map(t_map *m)
@@ -77,4 +78,12 @@ void		read_grid(t_map *m)
 	while (get_next_line(0, &line) && !ft_strstr(line, "012345"))
 		free(line);
 	free(line);
+}
+
+void		count_pieces(t_map *m, int i, int j)
+{
+	if (m->info.lines[i][j] == 'O' || m->info.lines[i][j] == 'o')
+		m->info.me += 1;
+	if (m->info.lines[i][j] == 'X' || m->info.lines[i][j] == 'x')
+		m->info.enemy += 1;
 }

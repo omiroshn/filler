@@ -20,7 +20,9 @@ void	init(t_map *m)
 		put_error(SDL_GetError());
 	if (TTF_Init() < 0)
 		put_error(SDL_GetError());
-	if (!(m->ttf = TTF_OpenFont(FONTS_FOLDER"bad-mofo.regular.ttf", 30)))
+	if (!(m->ttf = TTF_OpenFont(FONTS_FOLDER"bad-mofo.regular.ttf", 38)))
+		put_error(IMG_GetError());
+	if (!(m->pause_ttf = TTF_OpenFont(FONTS_FOLDER"bad-mofo.regular.ttf", 100)))
 		put_error(IMG_GetError());
 	if (!(m->window = SDL_CreateWindow("Visualizer",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -29,6 +31,7 @@ void	init(t_map *m)
 	m->screen = SDL_GetWindowSurface(m->window);
 	m->info.user1 = NULL;
 	m->info.user2 = NULL;
+	m->mouse_pressed = 0;
 }
 
 int		main(void)
@@ -39,13 +42,20 @@ int		main(void)
 	malloc_map(&m);
 	while (TRUE)
 	{
-		ft_bzero(m.screen->pixels, m.screen->w * m.screen->h * 4);
-		read_grid(&m);
-		draw_grid(&m);
-		draw_userinfo(&m);
-		SDL_UpdateWindowSurface(m.window);
+		if (!m.mouse_pressed)
+		{
+			ft_bzero(m.screen->pixels, m.screen->w * m.screen->h * 4);
+			read_grid(&m);
+			draw_grid(&m);
+			draw_userinfo(&m);
+			draw_score(&m);
+			draw_procent_bar(&m);
+		}
+		else
+			draw_pause(&m);
 		if (!key_function(&m))
 			break ;
+		SDL_UpdateWindowSurface(m.window);
 	}
 	return (quit(&m));
 }

@@ -41,7 +41,7 @@ void	read_map(t_in *info)
 		if (++i < info->x)
 			ft_strcpy(info->lines[i], &line[4]);
 	size_of_token(info, line);
-	create_2d_token_array(info, info->xp, info->yp);
+	create_2d_token_array(info, info->xp);
 	manhattan(info);
 	place_player(info);
 }

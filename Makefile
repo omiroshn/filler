@@ -21,7 +21,7 @@ SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))
 OBJ_LIST = $(addsuffix .o, $(FILES))
 SPEED = -O3
-FLAGS = -Wall
+FLAGS = -Wall -Wextra -Werror
 HEADERS = -I./includes -I./libft/includes -I./ft_printf/includes -I./visualizer/includes
 
 all: $(NAME) $(NAMEVIS)

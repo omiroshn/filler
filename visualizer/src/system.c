@@ -29,7 +29,7 @@ void	put_error(const char *msg)
 	exit(-1);
 }
 
-int		key_function(t_map *map)
+int		key_function(t_map *m)
 {
 	SDL_Event	e;
 
@@ -38,6 +38,8 @@ int		key_function(t_map *map)
 		if ((e.type == SDL_QUIT) || (e.type == SDL_KEYDOWN
 			&& e.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 			return (0);
+		if (e.type == SDL_MOUSEBUTTONDOWN)
+			m->mouse_pressed ^= 1;
 	}
 	return (1);
 }
