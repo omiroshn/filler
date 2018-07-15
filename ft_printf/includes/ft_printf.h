@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <wchar.h>
 # include <locale.h>
+# include <stdint.h>
 # include "libft.h"
 
 # define _LONG 1

@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
+OS = $(shell uname)
 NAME = libftprintf.a
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -Ofast
 LIBFT = ft_atoi \
 		ft_bzero \
 		ft_countwords \
@@ -101,6 +101,12 @@ OBJ_PRINTF = $(addprefix obj/, $(addsuffix .o, $(LIBFT_PRINTF)))
 OBJ_LIST = $(addsuffix .o, $(LIBFT))
 OBJ_LIST_PRINTF = $(addsuffix .o, $(LIBFT_PRINTF))
 HEADERS = -I./includes
+
+ifeq ($(OS), Linux)
+FLAGS =
+else
+FLAGS = -Wall -Wextra -Werror -Ofast
+endif
 
 EOC=\033[0m
 BLUE=\033[1;34m
